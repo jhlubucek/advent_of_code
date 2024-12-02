@@ -1,4 +1,4 @@
-package org.example.tasks;
+package org.example.days;
 
 import org.example.common.DataReaders;
 
@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-public class Task1 {
+public class Day1 {
 
     public static void calculateSimilarity(){
         HashMap<Integer,Integer> leftMap = new HashMap<>();
         HashMap<Integer,Integer> rightMap = new HashMap<>();
 
-        DataReaders.readDualLists("data/task1/input.txt", leftMap, rightMap);
+        DataReaders.readDualLists("data/day1/input.txt", leftMap, rightMap);
 
         leftMap.forEach( (k,v) -> System.out.print(k + ":" + v + " ") );
         System.out.println();
@@ -39,7 +39,7 @@ public class Task1 {
         List<Integer> leftList = new ArrayList<>();
         List<Integer> rightList = new ArrayList<>();
 
-        DataReaders.readDualLists("data/task1/input.txt", leftList, rightList);
+        DataReaders.readDualLists("data/day1/input.txt", leftList, rightList);
 
         Collections.sort(leftList);
         Collections.sort(rightList);

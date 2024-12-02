@@ -3,8 +3,10 @@ package org.example.common;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class DataReaders {
 
@@ -31,5 +33,23 @@ public class DataReaders {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<List<Integer>> readLists(String fileName){
+        List<List<Integer>> list = new ArrayList<>();
+        try {
+            Files.lines(Paths.get(fileName)).forEach(line -> {
+                String[] numbers = line.split("\\s+");
+                List<Integer> newLine = new ArrayList<>();
+                IntStream.range(0,numbers.length).forEach( i -> {
+                    newLine.add(Integer.parseInt(numbers[i]));
+                });
+                list.add(newLine);
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }
