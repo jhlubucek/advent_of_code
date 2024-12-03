@@ -1,6 +1,7 @@
 package org.example.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -42,10 +43,8 @@ public class Helpers {
 
         return matches;
     }
-    public static List<Integer> stringToIntList(String input) {
-        return stringToIntList(input,"\\s+");
-    }
 
+    //"\\s+"
     public static List<Integer> stringToIntList(String input, String separator) {
         String[] numbers = input.split(separator);
         List<Integer> list = new ArrayList<>();
@@ -53,6 +52,15 @@ public class Helpers {
             list.add(Integer.parseInt(numbers[i]));
         });
         return list;
+    }
+
+    public static <K, V> K getMapKeyByValue(Map<K, V> map, V value) {
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            if (value != null && value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
 }

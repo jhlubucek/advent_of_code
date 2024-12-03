@@ -107,7 +107,7 @@ public class Day2 extends Day{
         List<List<Integer>> list = new ArrayList<>();
         lines.forEach(line -> {
 
-            list.add(Helpers.stringToIntList(line));
+            list.add(Helpers.stringToIntList(line, "\\s+"));
         });
         return list;
     }
