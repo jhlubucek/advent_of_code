@@ -10,7 +10,12 @@ public abstract class Day {
         }else if(no == 2){
             task2();
         }else {
-            System.out.println("NON EXISTANT TASK");
+            runTask();
         }
+    }
+
+    public void runTask(){
+        task1();
+        task2();
     }
 }

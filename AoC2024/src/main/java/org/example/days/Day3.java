@@ -1,17 +1,18 @@
 package org.example.days;
 
 import org.example.common.Helpers;
-import static org.example.common.Helpers.regexMatches;
+import static org.example.common.Helpers.*;
 import org.example.dataReaders.StringDataReader;
 
 import java.util.List;
 
 import static org.example.dataReaders.DataReader.FileType.INPUT;
+import static org.example.dataReaders.DataReader.FileType.TEST;
 
 public class Day3 extends Day {
 
     public void task1() {
-        String input = StringDataReader.getString("day3",INPUT, false);
+        String input = StringDataReader.getString("day3",TEST, false);
 
         System.out.println(mulCounter(input));
 
@@ -21,7 +22,7 @@ public class Day3 extends Day {
     }
 
     public void task2() {
-        String input = StringDataReader.getString("day3",INPUT, false);
+        String input = StringDataReader.getString("day3",TEST, true);
 
 
         System.out.println(mulCounter2(input));
