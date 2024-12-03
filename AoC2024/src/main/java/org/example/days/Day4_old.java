@@ -103,6 +103,51 @@ public class Day4_old extends Day{
 
     @Override
     public void task2() {
+        List<String> data = LineDataReader.getLines("day4-old", INPUT, false);
+
+        HashMap<Integer, Integer> draws = new HashMap<>();
+        List<Integer> drawsList = Helpers.stringToIntList(data.get(0),",");
+        for (int i = 0; i < drawsList.size(); i++) {
+            draws.put(drawsList.get(i), i+1);
+        }
+
+        Helpers.printMap(draws);
+
+        List<List<List<Integer>>> matrices = new ArrayList<>();
+
+        int startIndex = 2;
+        while (startIndex < data.size()) {
+            List<String> sublist = data.subList(startIndex,startIndex+5);
+            startIndex += 6;
+
+            matrices.add(stringListToMatrice(sublist));
+        }
+
+        int latestDraw = Integer.MIN_VALUE;
+        int matrixIndex = -1;
+        for (int i = 0; i < matrices.size(); i++) {
+            int max = getEarliestRowOrCol(matrices.get(i),draws);
+
+            if (max > latestDraw) {
+                latestDraw = max;
+                matrixIndex = i;
+            }
+        }
+
+        int sum = 0;
+        List<List<Integer>> finalMatrix = matrices.get(matrixIndex);
+
+        for (int i = 0; i < finalMatrix.size(); i++) {
+            for (int j = 0; j < finalMatrix.get(i).size(); j++) {
+                int value = finalMatrix.get(i).get(j);
+                if (draws.get(value) > latestDraw) {
+                    sum+=value;
+                }
+
+            }
+        }
+        int drawValue = Helpers.getMapKeyByValue(draws,latestDraw);
+        System.out.println(sum*drawValue);
 
     }
 }
