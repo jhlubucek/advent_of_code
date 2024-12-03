@@ -1,21 +1,25 @@
 package org.example.days;
 
-import org.example.common.DataReaders;
+import org.example.dataReaders.LineDataReader;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-public class Day1 {
+import static org.example.dataReaders.DataReader.FileType.TEST;
 
-    public static void calculateSimilarity(){
+public class Day1 extends Day{
+
+    @Override
+    public void task2(){
         HashMap<Integer,Integer> leftMap = new HashMap<>();
         HashMap<Integer,Integer> rightMap = new HashMap<>();
 
-        DataReaders.readDualLists("data/day1/input.txt", leftMap, rightMap);
+        LineDataReader.getLines("day1", TEST,false).forEach(line -> {
+            String[] numbers = line.split("\\s+");
+            leftMap.merge(Integer.parseInt(numbers[0]), 1, Integer::sum);
+            rightMap.merge(Integer.parseInt(numbers[1]), 1, Integer::sum);
+        });
 
         leftMap.forEach( (k,v) -> System.out.print(k + ":" + v + " ") );
         System.out.println();
@@ -35,11 +39,16 @@ public class Day1 {
         System.out.println(similaritySum);
     }
 
-    public static void calculateDistance(){
+    @Override
+    public void task1(){
         List<Integer> leftList = new ArrayList<>();
         List<Integer> rightList = new ArrayList<>();
 
-        DataReaders.readDualLists("data/day1/input.txt", leftList, rightList);
+        LineDataReader.getLines("day1", TEST,false).forEach(line -> {
+            String[] numbers = line.split("\\s+");
+            leftList.add(Integer.parseInt(numbers[0]));
+            rightList.add(Integer.parseInt(numbers[1]));
+        });
 
         Collections.sort(leftList);
         Collections.sort(rightList);
@@ -62,4 +71,5 @@ public class Day1 {
         System.out.println();
         System.out.println(sum);
     }
+
 }

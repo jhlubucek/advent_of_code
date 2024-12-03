@@ -1,15 +1,19 @@
 package org.example;
 
 
+import org.example.days.Day;
+import org.example.days.Day1;
 import org.example.days.Day2;
-import org.example.days.Day4_old;
+import org.example.days.Day3;
 
 public class Main {
     public static void main(String[] args) {
-//        Day1.calculateSimilarity();
-//        Day1.calculateDistance();
-//        Day2.day2();
-        Day4_old.task1();
+        long start = System.currentTimeMillis();
+
+        Day day = new Day2();
+        day.runTask(1);
+        long finish = System.currentTimeMillis();
+        System.out.println("run time: " + (finish - start) + "ms");
     }
 
 

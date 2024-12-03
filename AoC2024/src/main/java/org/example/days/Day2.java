@@ -1,16 +1,39 @@
 package org.example.days;
 
-import org.example.common.DataReaders;
 import org.example.common.Helpers;
+import org.example.dataReaders.LineDataReader;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
-public class Day2 {
+import static org.example.dataReaders.DataReader.FileType.TEST;
 
-    public static void day2(){
-        List<List<Integer>> data = DataReaders.readLists("data/day2/input.txt");
+public class Day2 extends Day{
+
+    @Override
+    public void task1() {
+        List<List<Integer>> data = readLists(LineDataReader.getLines("day2", TEST, false));
+
+        AtomicInteger safe = new AtomicInteger(0);
+
+        data.forEach( l -> {
+            l.forEach( i -> System.out.print(i + ","));
+            System.out.println();
+            if(isListSafe(l, false)){
+                safe.getAndIncrement();
+            }
+        });
+
+        System.out.println();
+        System.out.println("VYSLEDEK: " + safe.get());
+
+    }
+
+    @Override
+    public void task2() {
+        List<List<Integer>> data = readLists(LineDataReader.getLines("day2", TEST, false));
 
         AtomicInteger safe = new AtomicInteger(0);
 
@@ -24,6 +47,7 @@ public class Day2 {
 
         System.out.println();
         System.out.println("VYSLEDEK: " + safe.get());
+
     }
 
     public static boolean isListSafe(List<Integer> list, boolean canRemove){
@@ -79,4 +103,14 @@ public class Day2 {
         }
         return copy;
     }
+
+    public static List<List<Integer>> readLists(List<String> lines){
+        List<List<Integer>> list = new ArrayList<>();
+        lines.forEach(line -> {
+
+            list.add(Helpers.stringToIntList(line));
+        });
+        return list;
+    }
+
 }
