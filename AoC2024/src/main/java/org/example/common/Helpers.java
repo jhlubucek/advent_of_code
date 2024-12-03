@@ -19,7 +19,7 @@ public class Helpers {
     }
 
     public static <K, V> void printMap(Map<K, V> map) {
-        map.forEach((key, value) -> System.out.print(key + "=" + value + ", "));
+        map.forEach((key, value) -> System.out.print(key + ":" + value + ", "));
         System.out.println();
     }
 

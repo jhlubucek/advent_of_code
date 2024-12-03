@@ -1,5 +1,6 @@
 package org.example.days;
 
+import org.example.common.Helpers;
 import org.example.dataReaders.LineDataReader;
 
 import java.util.*;
@@ -21,10 +22,8 @@ public class Day1 extends Day{
             rightMap.merge(Integer.parseInt(numbers[1]), 1, Integer::sum);
         });
 
-        leftMap.forEach( (k,v) -> System.out.print(k + ":" + v + " ") );
-        System.out.println();
-        rightMap.forEach( (k,v) -> System.out.print(k + ":" + v + " ") );
-        System.out.println();
+        Helpers.printMap(leftMap);
+        Helpers.printMap(rightMap);
 
         AtomicInteger similaritySum = new AtomicInteger();
 
@@ -36,7 +35,7 @@ public class Day1 extends Day{
             }
         });
         System.out.println();
-        System.out.println(similaritySum);
+        System.out.println(similaritySum.get());
     }
 
     @Override
@@ -53,10 +52,8 @@ public class Day1 extends Day{
         Collections.sort(leftList);
         Collections.sort(rightList);
 
-        leftList.forEach(i -> System.out.print(i + " "));
-        System.out.println();
-        rightList.forEach(i -> System.out.print(i + " "));
-        System.out.println();
+        Helpers.printList(leftList);
+        Helpers.printList(rightList);
 
         AtomicInteger sum = new AtomicInteger();
 
