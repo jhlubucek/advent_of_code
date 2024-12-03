@@ -23,7 +23,7 @@ public class Day4_old extends Day{
              draws.put(drawsList.get(i), i+1);
          }
 
-         System.out.println(draws);
+         Helpers.printMap(draws);
 
          List<List<List<Integer>>> matrices = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class Day4_old extends Day{
          int lowesCol = Integer.MAX_VALUE;
          for (int i = 0; i < matrix.size(); i++) {
              int highestRowVal = Integer.MIN_VALUE;
-             int highestRowCol = Integer.MIN_VALUE;
+             int highestColVal = Integer.MIN_VALUE;
              for (int j = 0; j < matrix.get(i).size(); j++) {
                  int rowVal = matrix.get(i).get(j);
                  int rowDrawNum = draws.get(rowVal);
@@ -75,17 +75,17 @@ public class Day4_old extends Day{
                      highestRowVal = rowDrawNum;
                  };
 
-                 int colVal = matrix.get(i).get(j);
-                 int colDrawNum = draws.get(rowVal);
-                 if (colDrawNum > highestRowCol){
-                     highestRowCol = colDrawNum;
+                 int colVal = matrix.get(j).get(i);
+                 int colDrawNum = draws.get(colVal);
+                 if (colDrawNum > highestColVal){
+                     highestColVal = colDrawNum;
                  };
              }
              if (lowesRow > highestRowVal){
                  lowesRow = highestRowVal;
              }
-             if (lowesCol > highestRowCol){
-                 lowesCol = highestRowCol;
+             if (lowesCol > highestColVal){
+                 lowesCol = highestColVal;
              }
          }
          return Math.min(lowesRow, lowesCol);
