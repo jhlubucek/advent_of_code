@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.example.dataReaders.DataReader.FileType.INPUT;
-import static org.example.dataReaders.DataReader.FileType.TEST;
 
 public class Day4_old extends Day{
 
@@ -32,7 +31,7 @@ public class Day4_old extends Day{
              List<String> sublist = data.subList(startIndex,startIndex+5);
              startIndex += 6;
 
-             matrices.add(stringListToMatrice(sublist));
+             matrices.add(stringListToMatrix(sublist));
          }
 
          int earliestDraw = Integer.MAX_VALUE;
@@ -91,7 +90,7 @@ public class Day4_old extends Day{
          return Math.min(lowesRow, lowesCol);
     }
 
-    private static List<List<Integer>> stringListToMatrice(List<String> list){
+    private static List<List<Integer>> stringListToMatrix(List<String> list){
         List<List<Integer>> matrix = new ArrayList<>();
         int size = list.size();
 
@@ -120,7 +119,7 @@ public class Day4_old extends Day{
             List<String> sublist = data.subList(startIndex,startIndex+5);
             startIndex += 6;
 
-            matrices.add(stringListToMatrice(sublist));
+            matrices.add(stringListToMatrix(sublist));
         }
 
         int latestDraw = Integer.MIN_VALUE;
