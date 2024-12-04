@@ -37,15 +37,9 @@ public class Day4 extends Day{
         for (int i = 0; i < matrix.size(); i++) {
             for (int j = 0; j < matrix.get(i).size(); j++) {
                 if (matrix.get(i).get(j) == 1) {
-                    count += searchHorizontal(i,j,false);
-                    count += searchVertical(i,j,false);
-                    count += searchDiagonalDown(i,j,false);
-                    count += searchDiagonalUp(i,j,false);
+                    count += search(i,j,false);
                 }else if (matrix.get(i).get(j) == 4) {
-                    count += searchHorizontal(i,j,true);
-                    count += searchVertical(i,j,true);
-                    count += searchDiagonalDown(i,j,true);
-                    count += searchDiagonalUp(i,j,true);
+                    count += search(i,j,true);
                 }
             }
         }
@@ -61,100 +55,132 @@ public class Day4 extends Day{
 
     }
 
-    private int searchHorizontal(int x, int y, boolean backward){
+//    private int searchHorizontal(int x, int y, boolean backward){
+//        int state = backward ? 4 : 1;
+//        int distance = backward ? -1 : 1;
+//
+//        try {
+//            for (int i = 1; i<4; i++){
+//                if (matrix.get(x).get(y+i) - state == distance){
+//                    state=matrix.get(x).get(y+i);
+//                }else {
+//                    return 0;
+//                }
+//            }
+//        }catch (IndexOutOfBoundsException e){
+//            return 0;
+//        }
+//
+//        for (int i = 0; i<4; i++){
+//            controlMatrix.get(x).set(y+i,true);
+//        }
+//
+//
+//        return 1;
+//    }
+//
+//    private int searchVertical(int x, int y, boolean backward){
+//        int state = backward ? 4 : 1;
+//        int distance = backward ? -1 : 1;
+//
+//        try {
+//            for (int i = 1; i<4; i++){
+//                if (matrix.get(x+i).get(y) - state == distance){
+//                    state=matrix.get(x+i).get(y);
+//                }else {
+//                    return 0;
+//                }
+//            }
+//        }catch (IndexOutOfBoundsException e){
+//            return 0;
+//        }
+//
+//        for (int i = 0; i<4; i++){
+//            controlMatrix.get(x+i).set(y,true);
+//        }
+//
+//
+//        return 1;
+//    }
+//
+//    private int searchDiagonalDown(int x, int y, boolean backward){
+//        int state = backward ? 4 : 1;
+//        int distance = backward ? -1 : 1;
+//
+//        try {
+//            for (int i = 1; i<4; i++){
+//                if (matrix.get(x+i).get(y+i) - state == distance){
+//                    state=matrix.get(x+i).get(y+i);
+//                }else {
+//                    return 0;
+//                }
+//            }
+//        }catch (IndexOutOfBoundsException e){
+//            return 0;
+//        }
+//
+//        for (int i = 0; i<4; i++){
+//            controlMatrix.get(x+i).set(y+i,true);
+//        }
+//
+//
+//        return 1;
+//    }
+//
+//    private int searchDiagonalUp(int x, int y, boolean backward){
+//        int state = backward ? 4 : 1;
+//        int distance = backward ? -1 : 1;
+//
+//        try {
+//            for (int i = 1; i<4; i++){
+//                if (matrix.get(x-i).get(y+i) - state == distance){
+//                    state=matrix.get(x-i).get(y+i);
+//                }else {
+//                    return 0;
+//                }
+//            }
+//        }catch (IndexOutOfBoundsException e){
+//            return 0;
+//        }
+//
+//        for (int i = 0; i<4; i++){
+//            controlMatrix.get(x-i).set(y+i,true);
+//        }
+//
+//
+//        return 1;
+//    }
+
+    private int search(int x, int y, boolean backward){
         int state = backward ? 4 : 1;
         int distance = backward ? -1 : 1;
 
-        try {
-            for (int i = 1; i<4; i++){
-                if (matrix.get(x).get(y+i) - state == distance){
-                    state=matrix.get(x).get(y+i);
-                }else {
-                    return 0;
-                }
-            }
-        }catch (IndexOutOfBoundsException e){
-            return 0;
+        int diagonalCount = 0;
+        int horizontalCount = 0;
+        int diagonalUpCount = 0;
+        int diagonalDownCount = 0;
+
+
+        for (int i = 1; i<4; i++){
+            try {
+                diagonalCount += matrix.get(x).get(y+i) - state == distance*i ? 1 : 0;
+            }catch (IndexOutOfBoundsException e) {}
+            try {
+                horizontalCount += matrix.get(x+i).get(y) - state == distance*i ? 1 : 0;
+            }catch (IndexOutOfBoundsException e) {}
+            try {
+                diagonalUpCount += matrix.get(x+i).get(y+i) - state == distance*i ? 1 : 0;
+            }catch (IndexOutOfBoundsException e) {}
+            try {
+                diagonalDownCount += matrix.get(x-i).get(y+i) - state == distance*i ? 1 : 0;
+            }catch (IndexOutOfBoundsException e) {}
         }
 
-        for (int i = 0; i<4; i++){
-            controlMatrix.get(x).set(y+i,true);
-        }
-
-
-        return 1;
+        return diagonalCount/3 + horizontalCount/3 + diagonalUpCount/3 + diagonalDownCount/3;
     }
 
-    private int searchVertical(int x, int y, boolean backward){
-        int state = backward ? 4 : 1;
-        int distance = backward ? -1 : 1;
+    private void updateCheckMatrix(int x, int y, boolean diagonal, boolean horizontal, boolean diagonalUp, boolean diagonalDown){
 
-        try {
-            for (int i = 1; i<4; i++){
-                if (matrix.get(x+i).get(y) - state == distance){
-                    state=matrix.get(x+i).get(y);
-                }else {
-                    return 0;
-                }
-            }
-        }catch (IndexOutOfBoundsException e){
-            return 0;
-        }
-
-        for (int i = 0; i<4; i++){
-            controlMatrix.get(x+i).set(y,true);
-        }
-
-
-        return 1;
-    }
-
-    private int searchDiagonalDown(int x, int y, boolean backward){
-        int state = backward ? 4 : 1;
-        int distance = backward ? -1 : 1;
-
-        try {
-            for (int i = 1; i<4; i++){
-                if (matrix.get(x+i).get(y+i) - state == distance){
-                    state=matrix.get(x+i).get(y+i);
-                }else {
-                    return 0;
-                }
-            }
-        }catch (IndexOutOfBoundsException e){
-            return 0;
-        }
-
-        for (int i = 0; i<4; i++){
-            controlMatrix.get(x+i).set(y+i,true);
-        }
-
-
-        return 1;
-    }
-
-    private int searchDiagonalUp(int x, int y, boolean backward){
-        int state = backward ? 4 : 1;
-        int distance = backward ? -1 : 1;
-
-        try {
-            for (int i = 1; i<4; i++){
-                if (matrix.get(x-i).get(y+i) - state == distance){
-                    state=matrix.get(x-i).get(y+i);
-                }else {
-                    return 0;
-                }
-            }
-        }catch (IndexOutOfBoundsException e){
-            return 0;
-        }
-
-        for (int i = 0; i<4; i++){
-            controlMatrix.get(x-i).set(y+i,true);
-        }
-
-
-        return 1;
     }
 
     private static int mapToInt(char c) {
