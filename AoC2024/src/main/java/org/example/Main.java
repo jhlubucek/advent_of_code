@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
 
-        Day day = new Day4();
-        day.runTask(2);
+        Day day = new Day5();
+        day.runTask(1);
         long finish = System.currentTimeMillis();
         System.out.println("run time: " + (finish - start) + "ms");
     }
