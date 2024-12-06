@@ -1,9 +1,6 @@
 package org.example.common;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,8 +69,29 @@ public class Helpers {
     @Setter
     @AllArgsConstructor
     @Builder(toBuilder=true)
+    @EqualsAndHashCode
     public static class Position{
         public int x;
         public int y;
+
+        public Position(Position other) {
+            this.x = other.x;
+            this.y = other.y;
+        }
     }
+
+    public static <T> List<List<T>> deepCopy(List<List<T>> original) {
+        if (original == null) {
+            return null; // Return null if the original list is null
+        }
+
+        List<List<T>> copy = new ArrayList<>();
+        for (List<T> innerList : original) {
+            List<T> innerCopy = new ArrayList<>(innerList); // Create a new copy of each inner list
+            copy.add(innerCopy);
+        }
+        return copy;
+    }
+
+
 }
