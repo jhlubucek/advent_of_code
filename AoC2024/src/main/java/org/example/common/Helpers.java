@@ -1,5 +1,10 @@
 package org.example.common;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +15,7 @@ import java.util.stream.IntStream;
 
 public class Helpers {
     public static <T> void printList(List<T> list) {
-        list.forEach(i -> System.out.print(i + ","));
+        list.forEach(System.out::print);
         System.out.println();
     }
 
@@ -63,4 +68,12 @@ public class Helpers {
         return null;
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @Builder(toBuilder=true)
+    public static class Position{
+        public int x;
+        public int y;
+    }
 }
