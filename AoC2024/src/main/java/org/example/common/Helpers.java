@@ -48,6 +48,7 @@ public class Helpers {
 
     //"\\s+"
     public static List<Integer> stringToIntList(String input, String separator) {
+        input = input.stripLeading();
         String[] numbers = input.split(separator);
         List<Integer> list = new ArrayList<>();
         IntStream.range(0,numbers.length).forEach(i -> {
