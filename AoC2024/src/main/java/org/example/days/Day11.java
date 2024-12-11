@@ -1,14 +1,17 @@
 package org.example.days;
 
 import org.example.common.Helpers;
+import org.example.common.TimeKeeper;
 import org.example.dataReaders.StringDataReader;
 
 import java.util.*;
 
+import static org.example.dataReaders.DataReader.FileType.INPUT;
 import static org.example.dataReaders.DataReader.FileType.TEST;
 
 public class Day11 extends Day{
     private Map<Long,List<Long>> splits = new HashMap<>();
+    private Map<Long,Integer> nonSplits = new HashMap<>();
     private static int iter = 25;
     @Override
     public void task1() {
@@ -50,7 +53,7 @@ public class Day11 extends Day{
 
     @Override
     public void task2() {
-        String input = StringDataReader.getString("day10", TEST,false);
+        String input = StringDataReader.getString("day11", TEST,false);
         List<Long> stones = Helpers.stringToLongList(input, "\\s+");
         //to memory intensive
 //        for (int i = 0; i < 75; i++) {
@@ -60,7 +63,9 @@ public class Day11 extends Day{
 
         long size = 0;
         for (Long stone : stones) {
-            size += countFinalStones(stone,iter,true);
+            size += countFinalStones(stone,25,true);
+            System.out.println("stone " + stone + " size: " + size);
+            TimeKeeper.printTimePassed();
         }
         System.out.println(size);
     }
@@ -75,13 +80,20 @@ public class Day11 extends Day{
 
 
         while(iterationsLeft > 0) {
+            if (nonSplits.containsKey(stone) && nonSplits.get(stone) > iterationsLeft) {
+                iterations += nonSplits.get(stone);
+                addTerminalNumbers(evolvedStones,iterations);
+                return numberOfStones;
+            }
             if (splits.containsKey(stone)) {
                 iterationsLeft -= splits.get(stone).get(0);
+                iterations += splits.get(stone).get(0);
                 if (iterationsLeft < 0) {
                     return numberOfStones;
                 }
                 long left = splits.get(stone).get(1);
                 long right = splits.get(stone).get(2);
+                addTerminalSplits(evolvedStones,iterations,left,right);
                 numberOfStones+=countFinalStones(left,iterationsLeft,false);
                 newStones.add(right);
                 newStonesTerations.add(iterationsLeft);
@@ -98,9 +110,7 @@ public class Day11 extends Day{
                 String str = Long.toString(stone);
                 long left = Long.parseLong(str.substring(0,str.length()/2));
                 long right = Long.parseLong(str.substring(str.length()/2));
-                for (int i = 0; i < evolvedStones.size(); i++) {
-                    splits.put(evolvedStones.get(i),Arrays.asList((long) iterations-i,left,right));
-                }
+                addTerminalSplits(evolvedStones,iterations,left,right);
                 numberOfStones+=countFinalStones(left,iterationsLeft,false);
                 newStones.add(right);
                 newStonesTerations.add(iterationsLeft);
@@ -110,10 +120,24 @@ public class Day11 extends Day{
                 stone *= 2024;
             }
         }
+        addTerminalNumbers(evolvedStones,iterations);
         for (int i = 0; i < newStones.size(); i++) {
             numberOfStones+= countFinalStones(newStones.get(i), newStonesTerations.get(i),true);
         }
 
         return numberOfStones;
+    }
+
+    public void addTerminalNumbers(List<Long> evolvedStones,int iterations){
+        for (int i = 0; i < evolvedStones.size(); i++) {
+            if (!nonSplits.containsKey(evolvedStones.get(i)) || nonSplits.get(evolvedStones.get(i)) < iterations-i){
+                nonSplits.put(evolvedStones.get(i), iterations-i);
+            }
+        }
+    }
+    public void addTerminalSplits(List<Long> evolvedStones,int iterations, long left, long right){
+        for (int i = 0; i < evolvedStones.size(); i++) {
+            splits.put(evolvedStones.get(i),Arrays.asList((long) iterations-i,left,right));
+        }
     }
 }
