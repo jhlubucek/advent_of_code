@@ -7,10 +7,10 @@ public class Main {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
 
-        Day day = new Day10();
+        Day day = new Day11();
         day.runTask();
         long finish = System.currentTimeMillis();
-        System.out.println("run time: " + (finish - start) + "ms");
+        System.out.println("run time: " + (finish - start) + " ms");
     }
 
 

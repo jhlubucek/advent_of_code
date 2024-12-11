@@ -16,6 +16,16 @@ public class Helpers {
         System.out.println();
     }
 
+    public static <T> void printList(List<T> list, String separator) {
+        list.forEach( t -> System.out.print(t.toString()+separator));
+        System.out.println();
+    }
+
+    public static <T> void printList(String name, List<T> list, String separator) {
+        System.out.print(name + ": ");
+        printList(list,separator);
+    }
+
     public static <T> void printList(String name, List<T> list) {
         System.out.print(name + ": ");
         printList(list);
@@ -53,6 +63,17 @@ public class Helpers {
         List<Integer> list = new ArrayList<>();
         IntStream.range(0,numbers.length).forEach(i -> {
             list.add(Integer.parseInt(numbers[i]));
+        });
+        return list;
+    }
+
+    //"\\s+"
+    public static List<Long> stringToLongList(String input, String separator) {
+        input = input.stripLeading();
+        String[] numbers = input.split(separator);
+        List<Long> list = new ArrayList<>();
+        IntStream.range(0,numbers.length).forEach(i -> {
+            list.add(Long.parseLong(numbers[i]));
         });
         return list;
     }
