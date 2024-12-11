@@ -10,21 +10,21 @@ import static org.example.dataReaders.DataReader.FileType.INPUT;
 import static org.example.dataReaders.DataReader.FileType.TEST;
 
 public class Day11 extends Day{
-    private Map<Long,List<Long>> splits = new HashMap<>();
-    private Map<Long,Integer> nonSplits = new HashMap<>();
+    private Map<Integer,List<Integer>> splits = new HashMap<>();
+    private Map<Integer,Integer> nonSplits = new HashMap<>();
     private static int iter = 25;
     @Override
     public void task1() {
         String input = StringDataReader.getString("day11", TEST,false);
-        List<Long> stones = Helpers.stringToLongList(input, "\\s+");
+        List<Integer> stones = Helpers.stringToIntList(input, "\\s+");
         for (int i = 0; i < iter; i++) {
             applyRules(stones);
         }
         System.out.println(stones.size());
     }
 
-        public static void applyRules(List<Long> stones) {
-            List<Long> newStones = stones.stream()
+        public static void applyRules(List<Integer> stones) {
+            List<Integer> newStones = stones.stream()
                     .flatMap(stone -> applyRules(stone).stream())
                     .toList();
 
@@ -32,29 +32,29 @@ public class Day11 extends Day{
             stones.addAll(newStones);
         }
 
-    public static List<Long> applyRules(Long stone) {
+    public static List<Integer> applyRules(int stone) {
         if (stone == 0) {
-            return List.of(1L);
+            return List.of(1);
         }else if (hasEvenDigits(stone)) {
-            String str = Long.toString(stone);
-            Long left = Long.parseLong(str.substring(0,str.length()/2));
-            Long right = Long.parseLong(str.substring(str.length()/2));
+            String str = Integer.toString(stone);
+            int left = Integer.parseInt(str.substring(0,str.length()/2));
+            int right = Integer.parseInt(str.substring(str.length()/2));
             return Arrays.asList(left,right);
         }else {
             return List.of(stone * 2024);
         }
     }
 
-    public static boolean hasEvenDigits(long number) {
+    public static boolean hasEvenDigits(int number) {
         number = Math.abs(number);
-        int digitCount = Long.toString(number).length();
+        int digitCount = Integer.toString(number).length();
         return digitCount % 2 == 0;
     }
 
     @Override
     public void task2() {
         String input = StringDataReader.getString("day11", TEST,false);
-        List<Long> stones = Helpers.stringToLongList(input, "\\s+");
+        List<Integer> stones = Helpers.stringToIntList(input, "\\s+");
         //to memory intensive
 //        for (int i = 0; i < 75; i++) {
 //            applyRules(stones);
@@ -62,7 +62,7 @@ public class Day11 extends Day{
 //        System.out.println(stones.size());
 
         long size = 0;
-        for (Long stone : stones) {
+        for (Integer stone : stones) {
             size += countFinalStones(stone,25,true);
             System.out.println("stone " + stone + " size: " + size);
             TimeKeeper.printTimePassed();
@@ -71,12 +71,12 @@ public class Day11 extends Day{
     }
 
 
-    public long countFinalStones(long stone, int iterationsLeft, boolean isNew) {
+    public long countFinalStones(int stone, int iterationsLeft, boolean isNew) {
         long numberOfStones = isNew ? 1 : 0;
         int iterations = 0;
-        List<Long> newStones = new ArrayList<>();
+        List<Integer> newStones = new ArrayList<>();
         List<Integer> newStonesTerations = new ArrayList<>();
-        List<Long> evolvedStones = new ArrayList<>();
+        List<Integer> evolvedStones = new ArrayList<>();
 
 
         while(iterationsLeft > 0) {
@@ -91,8 +91,8 @@ public class Day11 extends Day{
                 if (iterationsLeft < 0) {
                     return numberOfStones;
                 }
-                long left = splits.get(stone).get(1);
-                long right = splits.get(stone).get(2);
+                int left = splits.get(stone).get(1);
+                int right = splits.get(stone).get(2);
                 addTerminalSplits(evolvedStones,iterations,left,right);
                 numberOfStones+=countFinalStones(left,iterationsLeft,false);
                 newStones.add(right);
@@ -107,9 +107,9 @@ public class Day11 extends Day{
                 stone = 1;
             } else if (hasEvenDigits(stone)) {
 
-                String str = Long.toString(stone);
-                long left = Long.parseLong(str.substring(0,str.length()/2));
-                long right = Long.parseLong(str.substring(str.length()/2));
+                String str = Integer.toString(stone);
+                int left = Integer.parseInt(str.substring(0,str.length()/2));
+                int right = Integer.parseInt(str.substring(str.length()/2));
                 addTerminalSplits(evolvedStones,iterations,left,right);
                 numberOfStones+=countFinalStones(left,iterationsLeft,false);
                 newStones.add(right);
@@ -128,16 +128,16 @@ public class Day11 extends Day{
         return numberOfStones;
     }
 
-    public void addTerminalNumbers(List<Long> evolvedStones,int iterations){
+    public void addTerminalNumbers(List<Integer> evolvedStones,int iterations){
         for (int i = 0; i < evolvedStones.size(); i++) {
             if (!nonSplits.containsKey(evolvedStones.get(i)) || nonSplits.get(evolvedStones.get(i)) < iterations-i){
                 nonSplits.put(evolvedStones.get(i), iterations-i);
             }
         }
     }
-    public void addTerminalSplits(List<Long> evolvedStones,int iterations, long left, long right){
+    public void addTerminalSplits(List<Integer> evolvedStones,int iterations, int left, int right){
         for (int i = 0; i < evolvedStones.size(); i++) {
-            splits.put(evolvedStones.get(i),Arrays.asList((long) iterations-i,left,right));
+            splits.put(evolvedStones.get(i),Arrays.asList( iterations-i,left,right));
         }
     }
 }
