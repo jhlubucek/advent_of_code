@@ -6,7 +6,6 @@ import org.example.dataReaders.StringDataReader;
 
 import java.util.List;
 
-import static org.example.dataReaders.DataReader.FileType.INPUT;
 import static org.example.dataReaders.DataReader.FileType.TEST;
 
 public class Day3 extends Day {
@@ -33,14 +32,14 @@ public class Day3 extends Day {
     }
 
     public int mulCounter(String input){
-        List<String> operations = regexMatches("mul\\(\\d*,\\d*\\)",input);
+        List<String> operations = getRegexMatches("mul\\(\\d*,\\d*\\)",input);
         Helpers.printList(operations);
 
         int sum = 0;
 
         for(String operation : operations){
-            List<String>number1 = regexMatches("\\d*(?=,)",operation);
-            List<String>number2 = regexMatches("\\d*(?=\\))",operation);
+            List<String>number1 = getRegexMatches("\\d*(?=,)",operation);
+            List<String>number2 = getRegexMatches("\\d*(?=\\))",operation);
             sum+=Integer.parseInt(number1.get(0))*Integer.parseInt(number2.get(0));
         }
 
@@ -48,7 +47,7 @@ public class Day3 extends Day {
     }
 
     public int mulCounter2(String input){
-        List<String> operations = regexMatches("(mul\\(\\d*,\\d*\\))|(do\\(\\)|(don't\\(\\)))",input);
+        List<String> operations = getRegexMatches("(mul\\(\\d*,\\d*\\))|(do\\(\\)|(don't\\(\\)))",input);
         Helpers.printList(operations);
 
         int sum = 0;
@@ -67,8 +66,8 @@ public class Day3 extends Day {
                 docounter++;
             } else {
                 if (d || docounter == 0) {
-                    List<String> number1 = regexMatches("\\d*(?=,)", operation);
-                    List<String> number2 = regexMatches("\\d*(?=\\))", operation);
+                    List<String> number1 = getRegexMatches("\\d*(?=,)", operation);
+                    List<String> number2 = getRegexMatches("\\d*(?=\\))", operation);
                     sum += Integer.parseInt(number1.get(0)) * Integer.parseInt(number2.get(0));
                 }if (dn){
                 }

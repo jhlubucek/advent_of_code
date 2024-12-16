@@ -40,19 +40,22 @@ public class Helpers {
         printMap(map);
     }
 
-    public static List<String> regexMatches(String regex, String input) {
+    public static List<String> getRegexMatches(String regex, String input) {
         List<String> matches = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = matchRegex(regex,input);
 
         while (matcher.find()) {
             String match = matcher.group();
             matches.add(match);
-
         }
 
         return matches;
+    }
+
+    public static Matcher matchRegex(String regex, String input) {
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(input);
     }
 
     //"\\s+"
