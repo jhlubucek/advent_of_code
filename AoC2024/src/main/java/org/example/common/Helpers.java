@@ -2,10 +2,9 @@ package org.example.common;
 
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -115,5 +114,36 @@ public class Helpers {
         return copy;
     }
 
+    public static class MutableInt {
+        public int value;
 
+        public MutableInt(int value) {
+            this.value = value;
+        }
+    }
+
+    public static Boolean[][] createVisitedMatrix(Character[][] matrix) {
+        Boolean[][] visitedMatrix = new Boolean[matrix.length][];
+        for (int i = 0; i < matrix.length; i++) {
+            visitedMatrix[i] = new Boolean[matrix[i].length];
+            // Initialize all elements in the row to `false`
+            Arrays.fill(visitedMatrix[i], false);
+        }
+
+        return visitedMatrix;
+    }
+
+    public static int sum(int... numbers) {
+        return IntStream.of(numbers).sum();
+    }
+
+    public static int sum(boolean... values) {
+        return IntStream.range(0, values.length)
+                .map(i -> values[i] ? 1 : 0)
+                .sum();
+    }
+
+    public static boolean liesOnMap(Point p, Character[][] map) {
+        return p.y >= 0 && p.y < map.length && p.x >= 0 && p.x < map[0].length;
+    }
 }
